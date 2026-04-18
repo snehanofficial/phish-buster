@@ -198,10 +198,6 @@ pnpm lint
 3. Test changes locally before submitting
 4. Update this README if adding major features
 
-## License
-
-[Add your license here]
-
 ## Support
 
 For issues, questions, or suggestions, please open an issue or contact the maintainers.
