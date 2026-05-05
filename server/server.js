@@ -27,9 +27,22 @@ const PORT = process.env.PORT || 4000;
 // ── Security headers ─────────────────────────────────────────────────────────
 app.use(helmet());
 
+// ── CORS: allow Vite dev server + production origin ─────────────────────────
+const ALLOWED_ORIGINS = [
+  "http://localhost:5173", // Vite default
+  "http://localhost:5174", // Vite fallback port
+  "http://localhost:3000",
+  "http://[IP_ADDRESS]",
+  process.env.CLIENT_ORIGIN, // set in .env for prod
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: (origin, cb) => {
+      // Allow requests with no origin (curl, Postman, same-origin)
+      if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+      cb(new Error(`CORS: origin "${origin}" not allowed`));
+    },
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
