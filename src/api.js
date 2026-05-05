@@ -1,11 +1,11 @@
 /**
  * api.js — thin Axios wrapper for the PhishBuster backend.
- * All calls go to http://localhost:4000
+ * All calls go to ${BASE}, which is set via VITE_API_BASE or defaults to http://localhost:4000.
  */
 
 import axios from "axios";
 
-const BASE = "http://localhost:4000";
+const BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000";
 
 const http = axios.create({
   baseURL: BASE,
